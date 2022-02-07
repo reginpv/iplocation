@@ -2,7 +2,7 @@ import countries from '../lib/countries.json'
 
 export default function handler(req, res) {
 
-  console.log(req)
+  console.log(req.qeo)
 
   const { url, geo } = req
   const country = geo?.country || 'na'
@@ -12,7 +12,8 @@ export default function handler(req, res) {
   let payload = {
     country,
     city,
-    region
+    region,
+    geo: req?.geo
   }
 
   res.status(200).json(payload)
