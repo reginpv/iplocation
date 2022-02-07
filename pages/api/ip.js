@@ -2,6 +2,8 @@ import countries from '../lib/countries.json'
 
 export default function handler(req, res) {
 
+  console.log(req)
+
   const { url, geo } = req
   const country = geo?.country || 'na'
   const city = geo?.city || 'na'
