@@ -3,26 +3,20 @@ import countries from '../lib/countries.json'
 
 export async function middleware(NextRequest) {
 
-  const { url, geo } = NextRequest
-  const country = geo.country || 'US'
-  const city = geo.city || 'San Francisco'
-  const region = geo.region || 'CA'
+  console.log(NextRequest)
+
+  const { nextUrl, geo } = NextRequest
+  const country = geo.country || 'na'
+  const city = geo.city || 'na'
+  const region = geo.region || 'na'
 
   console.log('geo: ', geo)
 
   const countryInfo = countries.find((x) => x.cca2 === country)
 
-  const currencyCode = Object.keys(countryInfo.currencies)[0]
-  const currency = countryInfo.currencies[currencyCode]
-  const languages = Object.values(countryInfo.languages).join(', ')
+  nextUrl.searchParams.set('country', country)
+  nextUrl.searchParams.set('city', city)
+  nextUrl.searchParams.set('region', region)
 
-  url.searchParams.set('country', country)
-  url.searchParams.set('city', city)
-  url.searchParams.set('region', region)
-  url.searchParams.set('currencyCode', currencyCode)
-  url.searchParams.set('currencySymbol', currency.symbol)
-  url.searchParams.set('name', currency.name)
-  url.searchParams.set('languages', languages)
-
-  return NextResponse.rewrite(url)
+  return NextResponse.rewrite(nextUrl)
 }
